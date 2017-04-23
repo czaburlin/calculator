@@ -1,0 +1,10 @@
+# Add any directories, files, or patterns you don't want to be tracked by version control
+.DS_Store
+.nodemonignore
+.sass-cache/
+npm-debug.log
+node_modules/
+public/lib
+app/tests/coverage/
+.bower-*/
+.idea/
