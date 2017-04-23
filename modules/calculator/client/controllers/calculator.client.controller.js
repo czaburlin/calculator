@@ -4,24 +4,18 @@ angular.module('calculator').controller('CalculatorController', ['$scope', '$sta
     function ($scope, $state, $http, $location, $window, Authentication) {
         $scope.authentication = Authentication;
 
-
         // Set default value for time
         $scope.credentials = {};
         $scope.credentials.time = 'Years';
         $scope.frequency = ['Daily','Monthly','Bimonthly','Quarterly','Every four months','Years',];
 
         $scope.answerI = 0;
+        $scope.answerI2 = 0;
         $scope.answerTA = 0;
 
-        // If user is signed in then redirect back home
-        if ($scope.authentication.user) {
-            $location.path('/');
-        }
-
         $scope.calculate = function (isValid) {
-            $scope.error = null;
             if (!isValid) {
-                $scope.$broadcast('show-errors-check-validity', 'userForm');
+                $scope.$broadcast('show-errors-check-validity', 'simpleForm');
                 return false;
             }
 
@@ -52,14 +46,27 @@ angular.module('calculator').controller('CalculatorController', ['$scope', '$sta
                 $scope.answerTA = $scope.credentials.principal + $scope.answerI;
         };
 
+        $scope.calculate2 = function (isValid) {
+            if (!isValid) {
+                $scope.$broadcast('show-errors-check-validity', 'compoundForm');
+                return false;
+            }
+
+            $scope.answerI2 = $scope.credentials.principal * Math.pow(1 + $scope.credentials.interest/100,$scope.credentials.timeValue);
+        };
+
         $scope.clear = function() {
+            //Credentials
             $scope.credentials = {};
             $scope.credentials.time = 'Years';
             $scope.credentials.principal = 0;
             $scope.credentials.interest = 0;
             $scope.credentials.timeValue = 0;
+            //Simple
             $scope.answerI = 0;
             $scope.answerTA = 0;
+            //Compound
+            $scope.answerI2 = 0;            
         };
   }
 ]);
